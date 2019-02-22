@@ -27,7 +27,21 @@ export default {
       this.todos = this.todos.filter(i => i.id !== id);
     },
     addTodo(newTodo) {
-      this.todos = [...this.todos, newTodo];
+      const { title, completed } = newTodo;
+
+      fetch('https://jsonplaceholder.typicode.com/todos', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({title, completed}),
+      })
+      .then(res => res.json())
+      .then(data => {
+        this.todos = [...this.todos, data];
+      })
+      // eslint-disable-next-line
+      .catch(err => console.error(err))
     }
   },
   created() {
