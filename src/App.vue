@@ -24,7 +24,11 @@ export default {
   },
   methods: {
     deleteTodo(id) {
-      this.todos = this.todos.filter(i => i.id !== id);
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
+      .then(res => res.json())
+      .then(data =>  this.todos = this.todos.filter(i => i.id !== data.id))
+      // eslint-disable-next-line
+      .catch(err => console.error(err));
     },
     addTodo(newTodo) {
       const { title, completed } = newTodo;
@@ -41,7 +45,7 @@ export default {
         this.todos = [...this.todos, data];
       })
       // eslint-disable-next-line
-      .catch(err => console.error(err))
+      .catch(err => console.error(err));
     }
   },
   created() {
